@@ -1,0 +1,23 @@
+[
+    {
+        "Stock code": "Code 123",
+        "Description": "Description 1",
+        "UOM": "Each",
+        "Issue Qty": 5,
+        "Remarks": "Sample remark 1"
+    },
+    {
+        "Stock code": "Code 456",
+        "Description": "Description 2",
+        "UOM": "Pack",
+        "Issue Qty": 10,
+        "Remarks": "Sample remark 2"
+    },
+    {
+        "Stock code": "Code 789",
+        "Description": "Description 3",
+        "UOM": "Each",
+        "Issue Qty": 7,
+        "Remarks": "Sample remark 3"
+    }
+]
