@@ -3,8 +3,6 @@ const modalTable = document.querySelector('#modalTable')
 const modalTableBody = document.querySelector('#modalTableBody')
 const selectAllCheckboxes = document.querySelector('#selectAllCheckboxes')
 const AddDataInTable = document.querySelector('#AddDataToTable')
-console.log(AddDataInTable);
-
 
 
 // select all checkboxes by clicking by checking one checkbox
@@ -69,10 +67,37 @@ function addDataToTable() {
     // Remove the selected rows from modalTableBody
     rowsToRemove.forEach(row => row.remove());
 }
-
-
 // Event listener for the "Add data in table" button
 AddDataInTable.addEventListener('click', addDataToTable);
+
+
+
+// console json data
+const consoleJsonButton = document.querySelector('#consoleJson');
+consoleJsonButton.addEventListener('click', () => {
+    const tableOnScreenBody = document.querySelector("#TableOnScreenbody");
+    const jsonData = [];
+
+    // Iterate through rows in TableOnScreenbody
+    for (let i = 0; i < tableOnScreenBody.children.length; i++) {
+        const row = tableOnScreenBody.children[i];
+        const rowData = {};
+
+        // Extract data from each cell in the row
+        rowData["Index"] = i + 1; // Add an "Index" field
+        for (let j = 1; j < row.cells.length - 1; j++) { // Exclude the last cell (Action)
+            const header = document.querySelector("#TableOnScreen thead th:nth-child(" + (j + 1) + ")").textContent;
+            const cellData = row.cells[j].textContent;
+            rowData[header] = cellData;
+        }
+
+        // Add the row data to the JSON array
+        jsonData.push(rowData);
+    }
+
+    // Print the JSON data to the console
+    console.log(JSON.stringify(jsonData, null, 2));
+});
 
 
 
