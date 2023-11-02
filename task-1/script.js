@@ -2,51 +2,88 @@
 const modalTable = document.querySelector('#modalTable')
 const modalTableBody = document.querySelector('#modalTableBody')
 const selectAllCheckboxes = document.querySelector('#selectAllCheckboxes')
+const AddDataInTable = document.querySelector('#AddDataToTable')
+console.log(AddDataInTable);
+
 
 
 // select all checkboxes by clicking by checking one checkbox
 selectAllCheckboxes.addEventListener('change', () => {
-
-    // By keeping the selection of modalTableBodyCheckboxes inside the event listener, you ensure that the selection is made at the moment when the event occurs, and the checkboxes are available in the DOM.
     const modalTableBodyCheckboxes = document.querySelectorAll("#modalTableBody input[type='checkbox']")
-    console.log(modalTableBodyCheckboxes);
-
     modalTableBodyCheckboxes.forEach((checkbox) => {
-
-        // setting the checked property of an individual checkbox element to the same value as the checked property of the selectAllCheckboxes checkbox
         checkbox.checked = selectAllCheckboxes.checked
     })
 
-
     // Adding to feature to uncheck selectAll if any Checkbox get unchecked
     const individualCheckboxes = document.querySelectorAll("#modalTableBody input[type='checkbox']");
-    console.log("here",individualCheckboxes);
-
     individualCheckboxes.forEach((checkbox) => {
         checkbox.addEventListener('change', () => {
-            
-            // Check the state of all individual checkboxes
             const allChecked = Array.from(individualCheckboxes).every((cb) => cb.checked);
-            // here Array.from(individualCheckboxes) converts the individualCheckboxes NodeList into an array so that it can be used with the every method.
-
-            // Update the state of the selectAll Checkbox based on the individual checkboxes
             selectAllCheckboxes.checked = allChecked;
         });
     });
 })
 
 
+// Function to add selected data to the TableOnScreen
+function addDataToTable() {
+    const modalTableBodyCheckboxes = document.querySelectorAll("#modalTableBody input[type='checkbox']");
+    const tableOnScreenBody = document.querySelector("#TableOnScreenbody");
+    const rowsToRemove = [];
+
+    modalTableBodyCheckboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+            const modalTableRow = modalTableBody.children[index];
+            const newRow = document.createElement('tr');
+
+            // Create an index cell with sequential numbering
+            const indexCell = document.createElement('td');
+            indexCell.textContent = tableOnScreenBody.children.length + 1;
+            newRow.appendChild(indexCell);
+
+            // Iterate through the cells and copy data
+            for (let i = 1; i < modalTableRow.cells.length; i++) {
+                const cell = modalTableRow.cells[i].cloneNode(true);
+                newRow.appendChild(cell);
+            }
+
+            // Add an additional cell for the "Action" column in TableOnScreen
+            const actionCell = document.createElement('td');
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.addEventListener('click', () => {
+                newRow.remove();
+                // Move the removed row back to modalTableBody
+                modalTableBody.appendChild(modalTableRow);
+            });
+            actionCell.appendChild(removeButton);
+            newRow.appendChild(actionCell);
+
+            tableOnScreenBody.appendChild(newRow);
+
+            // Add the row to the list to be removed
+            rowsToRemove.push(modalTableRow);
+        }
+    });
+
+    // Remove the selected rows from modalTableBody
+    rowsToRemove.forEach(row => row.remove());
+}
+
+
+// Event listener for the "Add data in table" button
+AddDataInTable.addEventListener('click', addDataToTable);
+
+
+
+
 // fetching json data from file
 fetch('./data.json')
     .then(response => response.json())
     .then((data) => {
-        console.log(data)
-
         data.forEach(val => {
-
             const row = document.createElement('tr')
 
-            // creating a checkbox
             const checkboxCell = document.createElement('td');
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
