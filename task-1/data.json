@@ -14,10 +14,24 @@
         "Remarks": "Sample remark 2"
     },
     {
-        "Stock code": "Code 789",
+        "Stock code": "Code 264",
         "Description": "Description 3",
         "UOM": "Each",
         "Issue Qty": 7,
         "Remarks": "Sample remark 3"
+    },
+    {
+        "Stock code": "Code 789",
+        "Description": "Description 4",
+        "UOM": "Pack",
+        "Issue Qty": 5,
+        "Remarks": "Sample remark 4"
+    },
+    {
+        "Stock code": "Code 789",
+        "Description": "Description 5",
+        "UOM": "Each",
+        "Issue Qty": 4,
+        "Remarks": "Sample remark 5"
     }
 ]
